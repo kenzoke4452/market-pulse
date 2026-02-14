@@ -1,0 +1,58 @@
+financial-news-aggregator/
+├── README.md                          # Описание проекта
+├── .gitignore                         # Игнорируемые файлы
+├── .env                               # Переменные окружения (создайте из примера)
+├── deploy.sh                          # Скрипт деплоя
+├── docs/
+│   └── api.md                         # Документация API
+├── frontend/
+│   ├── public/
+│   │   └── index.html                 # HTML-шаблон
+│   ├── src/
+│   │   ├── components/
+│   │   │   ├── Disclaimer.js          # Компонент disclaimer
+│   │   │   ├── Filters.js             # Фильтры (валюты, sentiment, etc.)
+│   │   │   ├── Header.js              # Шапка с навигацией
+│   │   │   └── NewsCard.js            # Карточка новости
+│   │   │   └── NewsList.js            # Список новостей с пагинацией
+│   │   ├── pages/
+│   │   │   ├── About.js               # Страница About
+│   │   │   ├── Home.js                # Главная страница
+│   │   │   └── UpcomingEvents.js      # Страница событий
+│   │   ├── services/
+│   │   │   └── api.js                 # Функции для API-запросов
+│   │   ├── utils/
+│   │   │   ├── constants.js           # Константы (фильтры, цвета)
+│   │   │   └── helpers.js             # Вспомогательные функции
+│   │   ├── App.js                     # Главный компонент с роутингом
+│   │   ├── index.js                   # Точка входа React
+│   │   └── styles.css                 # Глобальные стили
+│   └── package.json                   # Зависимости frontend
+├── backend/
+│   ├── src/
+│   │   ├── config/
+│   │   │   ├── database.js            # Подключение к MongoDB
+│   │   │   ├── env.js                 # Загрузка переменных окружения
+│   │   ├── controllers/
+│   │   │   ├── eventsController.js    # Логика для событий
+│   │   │   └── newsController.js      # Логика для новостей
+│   │   ├── middleware/
+│   │   │   ├── auth.js                # Аутентификация (JWT)
+│   │   │   ├── cors.js                # CORS
+│   │   │   └── errorHandler.js        # Обработка ошибок
+│   │   ├── models/
+│   │   │   ├── Event.js               # Модель события
+│   │   │   └── News.js                # Модель новости
+│   │   ├── routes/
+│   │   │   ├── events.js              # Роуты для событий
+│   │   │   └── news.js                # Роуты для новостей
+│   │   ├── services/
+│   │   │   ├── newsParser.js          # Парсинг новостей
+│   │   │   ├── scheduler.js           # Планировщик парсинга
+│   │   │   └── sentimentAnalyzer.js   # Анализ bullish/bearish
+│   │   ├── app.js                     # Настройка Express
+│   │   └── server.js                  # Запуск сервера
+│   ├── scripts/
+│   │   └── parseNews.js               # Ручной парсинг для тестов
+│   └── package.json                   # Зависимости backend
+└── database/                          # (Опционально: скрипты для DB)

@@ -1,0 +1,73 @@
+# docker-compose.yml
+
+version: '3.8'
+
+services:
+  # MongoDB база данных
+  mongodb:
+    image: mongo:5.0  # Образ MongoDB
+    container_name: financial-news-mongodb
+    restart: unless-stopped
+    ports:
+      - "27017:27017"  # Порт для доступа извне (опционально)
+    environment:
+      MONGO_INITDB_DATABASE: financial-news  # Имя базы по умолчанию
+    volumes:
+      - mongodb_data:/data/db  # Volume для хранения данных
+    networks:
+      - financial-news-network
+
+  # Backend (Node.js)
+  backend:
+    build: ./backend  # Сборка из Dockerfile в папке backend
+    container_name: financial-news-backend
+    restart: unless-stopped
+    ports:
+      - "5000:5000"  # Порт backend
+    environment:
+      - NODE_ENV=production
+      - MONGO_URI=mongodb://mongodb:27017/financial-news  # Подключение к MongoDB в сети
+      # Добавьте другие переменные из .env, если нужно
+    depends_on:
+      - mongodb  # Зависит от MongoDB
+    volumes:
+      - ./backend/.env:/app/.env  # Монтируем .env файл (если есть)
+    networks:
+      - financial-news-network
+
+  # Frontend (React, обслуживается через nginx)
+  frontend:
+    build: ./frontend  # Сборка из Dockerfile в папке frontend
+    container_name: financial-news-frontend
+    restart: unless-stopped
+    ports:
+      - "3000:80"  # Порт frontend (nginx на 80 внутри контейнера)
+    depends_on:
+      - backend  # Зависит от backend (опционально, если API нужен)
+    networks:
+      - financial-news-network
+
+  # Nginx для обслуживания frontend build (альтернатива, если frontend не нужен в dev)
+  # Раскомментируйте, если хотите обслуживать build через nginx вместо dev-сервера
+  # nginx:
+  #   image: nginx:alpine
+  #   container_name: financial-news-nginx
+  #   restart: unless-stopped
+  #   ports:
+  #     - "80:80"
+  #   volumes:
+  #     - ./frontend/build:/usr/share/nginx/html  # Монтируем build
+  #     - ./nginx.conf:/etc/nginx/nginx.conf  # Конфиг nginx (создайте отдельно)
+  #   depends_on:
+  #     - backend
+  #   networks:
+  #     - financial-news-network
+
+# Volumes для хранения данных MongoDB
+volumes:
+  mongodb_data:
+
+# Сеть для связи контейнеров
+networks:
+  financial-news-network:
+    driver: bridge

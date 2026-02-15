@@ -5,7 +5,7 @@ import { BrowserRouter as Router, Route, Switch } from 'react-router-dom'; // У
 import Home from './pages/Home'; // Импорт главной страницы
 import UpcomingEvents from './pages/UpcomingEvents'; // Импорт страницы событий
 import About from './pages/About'; // Импорт страницы About
-import './styles.css'; // Импорт глобальных стилей
+import './styles/styles.css'; // Импорт глобальных стилей
 
 function App() {
   return (
